@@ -69,10 +69,10 @@
     <label>Student Name:</label>
     <input type="text" id="studentName" placeholder="Enter student name" required>
 
-    <label>Standard (e.g., 10th):</label>
+    <label>Standard:</label>
     <input type="text" id="studentStd" placeholder="Enter standard">
 
-    <label>Division (e.g., A, B, C):</label>
+    <label>Division:</label>
     <input type="text" id="studentDiv" placeholder="Enter division">
 
     <label>English (out of 80):</label>
@@ -108,67 +108,4 @@
     <div class="result" id="result"></div>
   </div>
 
-  <script>
-    const webhookURL = "https://discord.com/api/webhooks/1414608183380410480/J5V1csLz_HBKSnBCzPef2U0NbSHol3U41u1u8OrDcQXRiUU_47WCxRHXRQEewMSPFhWF";
-
-    function calculatePercentage() {
-      const name = document.getElementById("studentName").value;
-      const std = document.getElementById("studentStd").value;
-      const div = document.getElementById("studentDiv").value;
-
-      const subjects = {
-        English: parseInt(document.getElementById("english").value) || 0,
-        Marathi: parseInt(document.getElementById("marathi").value) || 0,
-        "Maths 1": parseInt(document.getElementById("maths1").value) || 0,
-        "Maths 2": parseInt(document.getElementById("maths2").value) || 0,
-        "Science 1": parseInt(document.getElementById("science1").value) || 0,
-        "Science 2": parseInt(document.getElementById("science2").value) || 0,
-        History: parseInt(document.getElementById("history").value) || 0,
-        Geography: parseInt(document.getElementById("geography").value) || 0,
-        "Sanskrit/German-Hindi": parseInt(document.getElementById("sanskrit").value) || 0
-      };
-
-      const totalMarks = Object.values(subjects).reduce((a, b) => a + b, 0);
-      const maxMarks = Object.keys(subjects).length * 80;
-      const percentage = ((totalMarks / maxMarks) * 100).toFixed(2);
-
-      let status = percentage >= 35 ? "PASS 🎉" : "FAIL ❌";
-      let resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = `👤 ${name} (Std: ${std}, Div: ${div})<br>📊 Percentage: ${percentage}%<br>${status}`;
-      resultDiv.className = "result " + (percentage >= 35 ? "pass" : "fail");
-
-      // Subject-wise tips
-      let tips = [];
-      for (let subject in subjects) {
-        if (subjects[subject] < 35) {
-          tips.push(`❌ ${subject}: Needs improvement.`);
-        }
-      }
-      if (tips.length > 0) {
-        resultDiv.innerHTML += "<br><br>💡 Tips:<br>" + tips.join("<br>");
-      }
-
-      // Send result to Discord webhook
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          embeds: [{
-            title: "📘 Percentage Calculator by Avadhoot Rairikar",
-            color: percentage >= 35 ? 5763719 : 15548997, // green or red
-            fields: [
-              { name: "👤 Student", value: name, inline: true },
-              { name: "🏫 Standard", value: std, inline: true },
-              { name: "📌 Division", value: div, inline: true },
-              { name: "📊 Percentage", value: `${percentage}%`, inline: true },
-              { name: "📌 Result", value: status, inline: true }
-            ],
-            footer: { text: "Auto-generated result" },
-            timestamp: new Date()
-          }]
-        })
-      });
-    }
-  </script>
-</body>
-</html>
+  <scr
